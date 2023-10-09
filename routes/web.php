@@ -21,20 +21,12 @@ Route::get('/', function () {
             break;
         }
 
-        $chatId = '-4043523229';
-        $message = 'test';
-        $botToken = '6353136141:AAE28DY7AHPmI5trQLj8zRfJaZLLUMwxtrA';
-
         $availableCarsList = getCars();
-        dd($availableCarsList);
-//        $res = \Illuminate\Support\Facades\Http::get('https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatId.'&text='.$message);
-
-//        dd($res->json());
+        sendMessageToTelegram($availableCarsList);
 
         $counter ++;
         sleep(3);
     }
-    return view('welcome');
 });
 
 function getCars(): array
@@ -49,4 +41,13 @@ function getCars(): array
     $availableCars = \Illuminate\Support\Facades\Http::post($url, $data);
 
     return $availableCars->json();
+}
+
+function sendMessageToTelegram($availableCars): void
+{
+    $chatId = '-4043523229';
+    $message = 'test';
+    $botToken = '6353136141:AAE28DY7AHPmI5trQLj8zRfJaZLLUMwxtrA';
+
+    \Illuminate\Support\Facades\Http::get('https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatId.'&text='.$message);
 }
